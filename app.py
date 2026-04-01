@@ -10,7 +10,7 @@ firebase_dict = dict(st.secrets["firebase"])
 # 1. Hubungkan ke Firebase (Hanya sekali)
 if not firebase_admin._apps:
     # Kat Streamlit Cloud, kita guna Secrets, tapi untuk test local guna fail JSON
-    cred = credentials.Certificate("fail-key-firebase-kau.json")
+    cred = credentials.Certificate(firebase_info)
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://aqi-usm-haziq-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
