@@ -12,7 +12,7 @@ if not firebase_admin._apps:
     # Kat Streamlit Cloud, kita guna Secrets, tapi untuk test local guna fail JSON
     cred = credentials.Certificate("fail-key-firebase-kau.json")
     firebase_admin.initialize_app(cred, {
-        'databaseURL': 'URL_DATABASE_FIREBASE_KAU'
+        'databaseURL': 'https://aqi-usm-haziq-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
 
 st.title("Air Quality Monitoring Dashboard")
