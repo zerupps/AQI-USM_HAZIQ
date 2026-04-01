@@ -5,7 +5,11 @@ import pandas as pd
 
 # 1. Ambil data dari Streamlit Secrets (Format TOML tadi)
 # Pastikan header kat Secrets tu adalah [firebase]
-firebase_dict = dict(st.secrets["firebase"])
+if "firebase" in st.secrets:
+    firebase_info = dict(st.secrets["firebase"])
+else:
+    st.error("Secrets 'firebase' tidak dijumpai! Check balik setting kat Streamlit Cloud.")
+    st.stop()
 
 # 1. Hubungkan ke Firebase (Hanya sekali)
 if not firebase_admin._apps:
