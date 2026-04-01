@@ -22,7 +22,7 @@ if not firebase_admin._apps:
     })
 
 st.title("Air Quality Monitoring Dashboard")
-st.write("Lokasi: Bilik Haziq, USM Nibong Tebal")
+st.write("Location: USM Nibong Tebal")
 
 # 2. Tarik Data Live
 live_ref = db.reference('/live').get()
@@ -40,5 +40,5 @@ if history_ref:
     data_list = [val for val in history_ref.values()]
     df = pd.DataFrame(data_list)
     
-    st.subheader("Trend Kualiti Udara (15 Minit Sekali)")
+    st.subheader("Graph Kualiti Udara (15 Minutes Interval)")
     st.line_chart(df.set_index('timestamp')[['pm2_5', 'temperature']])
