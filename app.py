@@ -2,7 +2,9 @@ import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, db
 import pandas as pd
+from streamlit_autorefresh import st_autorefresh
 
+count = st_autorefresh(interval=60000, limit=1000, key="fscounter")
 # 1. Ambil data dari Streamlit Secrets (Format TOML tadi)
 # Pastikan header kat Secrets tu adalah [firebase]
 if "firebase" in st.secrets:
