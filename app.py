@@ -3,6 +3,10 @@ import firebase_admin
 from firebase_admin import credentials, db
 import pandas as pd
 
+# 1. Ambil data dari Streamlit Secrets (Format TOML tadi)
+# Pastikan header kat Secrets tu adalah [firebase]
+firebase_dict = dict(st.secrets["firebase"])
+
 # 1. Hubungkan ke Firebase (Hanya sekali)
 if not firebase_admin._apps:
     # Kat Streamlit Cloud, kita guna Secrets, tapi untuk test local guna fail JSON
