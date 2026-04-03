@@ -4,6 +4,7 @@ from firebase_admin import credentials, db
 import pandas as pd
 from streamlit_autorefresh import st_autorefresh
 import joblib
+import numpy as np
 
 @st.cache_resource
 def load_ml_assets():
