@@ -65,28 +65,39 @@ if history_ref:
 st.divider()
 st.subheader("🤖 AI Prediction (Next 15 Minutes)")
 
+mapping_payload = {
+    'temperature': 'temp',
+    'humidity': 'hum',
+    'gas_voltage': 'gas_v',
+    'pm1_0': 'pm1',
+    'pm2_5': 'pm25',
+    'pm10_0': 'pm10'
+}
+
 fitur_ml = ['temp', 'hum', 'gas_v', 'pm1', 'pm25', 'pm10']
 
-if len(df) >= 8:
-    # 2. Tarik 8 baris terakhir mengikut fitur_ml sahaja
-    # Kita guna .copy() supaya tak ganggu dataframe asal
-    data_untuk_predict = df.tail(8)[fitur_ml].copy()
+if history_ref:
+    data_list = [val for val in history_ref.values()]
+    df = pd.DataFrame(data_list)
     
-    # 3. Check Gas Voltage (Wajib!)
-    # Kalau Firebase hantar negatif, tukar jadi positif macam fail clean kau
-    data_untuk_predict['gas_v'] = data_untuk_predict['gas_v'].abs()
-    
-    # 4. Tukar ke array (Bentuk asal: 8 baris, 6 kolum)
-    val_array = data_untuk_predict.values 
-    
-    # 5. Scaling (Scaler kau sekarang jangkakan 6 input)
-    scaled_data = scaler_rf.transform(val_array)
-    
-    # 6. Flatten (Tukar 8x6 jadi 1 baris panjang dengan 48 input)
-    # Ini kalau kau train RF guna lookback 8 yang di-flatten
-    final_input = scaled_data.flatten().reshape(1, -1) 
-    
-    # 7. Predict!
-    prediction = model_rf.predict(final_input)
-    
-    st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{prediction[0]:.2f} µg/m³")
+    # 3. Rename kolum secara automatik
+    df = df.rename(columns=mapping_payload)
+
+    if len(df) >= 8:
+        try:
+            # 4. Ambil 8 data terakhir
+            data_predict = df.tail(8)[fitur_ml].copy()
+            
+            # 5. PENTING: Tukar gas_v jadi positif (abs) 
+            # Sebab raw_v dalam payload kau mungkin negatif
+            data_predict['gas_v'] = data_predict['gas_v'].abs()
+            
+            # 6. Scaling & Predict
+            scaled = scaler_rf.transform(data_predict.values)
+            final_input = scaled.flatten().reshape(1, -1)
+            prediction = model_rf.predict(final_input)
+            
+            st.metric("Ramalan PM 2.5 (15 Min Seterusnya)", f"{prediction[0]:.2f} µg/m³")
+            
+        except KeyError as e:
+            st.error(f"Kolum {e} masih tak jumpa! Sila semak ejaan payload.")
