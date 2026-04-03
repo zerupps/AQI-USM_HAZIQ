@@ -96,8 +96,15 @@ if history_ref:
             scaled = scaler_rf.transform(data_predict.values)
             final_input = scaled.flatten().reshape(1, -1)
             prediction = model_rf.predict(final_input)
+
+            raw_pred = prediction[0]
+            dummy = np.zeros((1, 6))
+            dummy[0, 4] = raw_pred
+            inversed_data = scaler_rf.inverse_transform(dummy)
+            final_pm25 = inversed_data[0, 4]
             
-            st.metric("Ramalan PM 2.5 (15 Min Seterusnya)", f"{prediction[0]:.2f} µg/m³")
+            
+            st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{final_pm25:.2f} µg/m³")
             
         except KeyError as e:
             st.error(f"Kolum {e} masih tak jumpa! Sila semak ejaan payload.")
