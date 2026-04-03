@@ -69,7 +69,7 @@ st.subheader("🤖 AI Prediction (Next 15 Minutes)")
 if len(df) >= 8:
     # 1. Ambil 8 data terakhir
     # Susun ikut urutan yang betul (Contoh: Temp, Hum, PM2.5)
-    last_8_data = df.tail(8)[['temperature', 'humidity', 'pm2_5']].values
+    last_8_data = df.tail(8)[['temp', 'hum', 'gas_v', 'pm1', 'pm25', 'pm10']].values
     
     # 2. Scaling (Wajib sebab model belajar guna data scaled)
     last_8_scaled = scaler_rf.transform(last_8_data)
