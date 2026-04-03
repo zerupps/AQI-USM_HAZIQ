@@ -90,7 +90,7 @@ if history_ref:
             
             # 5. PENTING: Tukar gas_v jadi positif (abs) 
             # Sebab raw_v dalam payload kau mungkin negatif
-            data_predict['gas_v'] = data_predict['gas_v'].abs()
+            data_predict['gas_v'] = data_predict['gas_v'] + 0.5
             
             # 6. Scaling & Predict
             scaled = scaler_rf.transform(data_predict.values)
