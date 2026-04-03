@@ -9,8 +9,8 @@ import joblib
 def load_ml_assets():
     try:
         # Cuba guna joblib pula, lagi "ngam" dengan scikit-learn
-        model = joblib.load('model_rf_aqi.pkl')
-        scaler = joblib.load('scaler_aqi.pkl')
+        model = joblib.load('model_RF_pengkalan.pkl')
+        scaler = joblib.load('scaler_multivarite_ipoh.pkl')
         return model, scaler
     except Exception as e:
         st.error(f"Gagal load model: {e}")
