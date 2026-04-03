@@ -9,7 +9,7 @@ def load_ml_assets():
     # Pastikan nama fail ni sama dengan apa yang kau save
     with open('model_RF_pengkalan.pkl', 'rb') as f:
         model = pickle.load(f)
-    with open('scaler_multivarite_ipoh', 'rb') as f:
+    with open('scaler_multivarite_ipoh.pkl', 'rb') as f:
         scaler = pickle.load(f)
     return model, scaler
 
