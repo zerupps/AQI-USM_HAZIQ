@@ -65,33 +65,28 @@ if history_ref:
 st.divider()
 st.subheader("🤖 AI Prediction (Next 15 Minutes)")
 
-# Pastikan data history ada sekurang-kurangnya 8 baris
+fitur_ml = ['temp', 'hum', 'gas_v', 'pm1', 'pm25', 'pm10']
+
 if len(df) >= 8:
-    # 1. Ambil 8 data terakhir
-    # Susun ikut urutan yang betul (Contoh: Temp, Hum, PM2.5)
-    last_8_data = df.tail(8)[['temp', 'hum', 'gas_v', 'pm1', 'pm25', 'pm10']].values
+    # 2. Tarik 8 baris terakhir mengikut fitur_ml sahaja
+    # Kita guna .copy() supaya tak ganggu dataframe asal
+    data_untuk_predict = df.tail(8)[fitur_ml].copy()
     
-    # 2. Scaling (Wajib sebab model belajar guna data scaled)
-    last_8_scaled = scaler_rf.transform(last_8_data)
+    # 3. Check Gas Voltage (Wajib!)
+    # Kalau Firebase hantar negatif, tukar jadi positif macam fail clean kau
+    data_untuk_predict['gas_v'] = data_untuk_predict['gas_v'].abs()
     
-    # 3. Flatten data jadi 1D array (Sebab RF lookback 8 selalunya guna input rata)
-    # Contoh: 8 rows x 3 features = 24 input features
-    input_features = last_8_scaled.flatten().reshape(1, -1)
+    # 4. Tukar ke array (Bentuk asal: 8 baris, 6 kolum)
+    val_array = data_untuk_predict.values 
     
-    # 4. Predict!
-    prediction = model_rf.predict(input_features)
+    # 5. Scaling (Scaler kau sekarang jangkakan 6 input)
+    scaled_data = scaler_rf.transform(val_array)
     
-    # 5. Tampilkan Hasil
-    # Tukar balik hasil prediction ke unit asal kalau kau scale target masa training
-    pred_val = prediction[0] 
+    # 6. Flatten (Tukar 8x6 jadi 1 baris panjang dengan 48 input)
+    # Ini kalau kau train RF guna lookback 8 yang di-flatten
+    final_input = scaled_data.flatten().reshape(1, -1) 
     
-    col_pred, col_status = st.columns(2)
-    col_pred.metric("Ramalan PM 2.5 Seterusnya", f"{pred_val:.2f} µg/m³")
+    # 7. Predict!
+    prediction = model_rf.predict(final_input)
     
-    # Status Alert
-    if pred_val > 50:
-        st.warning("⚠️ Amaran: Kualiti udara dijangka merosot!")
-    else:
-        st.success("✅ Kualiti udara dijangka kekal bersih.")
-else:
-    st.info("Sedang mengumpul data yang cukup (minima 8 data) untuk membuat ramalan...")
+    st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{prediction[0]:.2f} µg/m³")
