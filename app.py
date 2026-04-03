@@ -6,12 +6,15 @@ from streamlit_autorefresh import st_autorefresh
 
 @st.cache_resource
 def load_ml_assets():
-    # Pastikan nama fail ni sama dengan apa yang kau save
-    with open('model_RF_pengkalan.pkl', 'rb') as f:
-        model = pickle.load(f)
-    with open('scaler_multivarite_ipoh.pkl', 'rb') as f:
-        scaler = pickle.load(f)
-    return model, scaler
+    try:
+        # Cuba guna joblib pula, lagi "ngam" dengan scikit-learn
+        model = joblib.load('model_rf_aqi.pkl')
+        scaler = joblib.load('scaler_aqi.pkl')
+        return model, scaler
+    except Exception as e:
+        st.error(f"Gagal load model: {e}")
+        st.info("Tips: Pastikan versi scikit-learn kat laptop sama dengan kat Streamlit Cloud.")
+        st.stop()
 
 model_rf, scaler_rf = load_ml_assets()
 
