@@ -84,10 +84,10 @@ if history_ref:
     # 3. Rename kolum secara automatik
     df = df.rename(columns=mapping_payload)
 
-    if len(df) >= 3:
+    if len(df) >= 5:
         try:
             # 4. Ambil 8 data terakhir
-            data_predict = df.tail(3)[fitur_ml].copy()
+            data_predict = df.tail(5)[fitur_ml].copy()
             
             # 5. PENTING: Tukar gas_v jadi positif (abs) 
             # Sebab raw_v dalam payload kau mungkin negatif
