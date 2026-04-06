@@ -58,7 +58,7 @@ if history_ref:
     data_list = [val for val in history_ref.values()]
     df = pd.DataFrame(data_list)
     
-    st.subheader("Graph Kualiti Udara (15 Minutes Interval)")
+    st.subheader("Graph Kualiti Udara (5 Minutes Interval)")
     st.line_chart(df.set_index('timestamp')[['pm2_5', 'temperature']])
 
 
