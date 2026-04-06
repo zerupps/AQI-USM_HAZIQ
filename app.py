@@ -57,6 +57,33 @@ if history_ref:
     # Tukar format Firebase (JSON) ke Pandas DataFrame
     data_list = [val for val in history_ref.values()]
     df = pd.DataFrame(data_list)
+    # --- TAMBAHAN: PENGURUSAN DATA DI SIDEBAR ---
+    with st.sidebar:
+        st.divider()
+        st.header("📂 Pengurusan Data")
+        
+        # 1. Butang Download (Backup data tempat lama sebelum delete)
+        csv = df.to_csv(index=False).encode('utf-8')
+        st.download_button(
+            label="📥 Download Backup (CSV)",
+            data=csv,
+            file_name='data_aqi_usm_backup.csv',
+            mime='text/csv',
+            help="Simpan data tempat lama untuk analisis tesis nanti."
+        )
+        
+        # 2. Butang Clear Data
+        st.warning("Amaran: Data yang dipadam tidak boleh dikembalikan.")
+        if st.button("🗑️ Padam Data Tempat Lama"):
+            try:
+                # Padam node /history di Firebase
+                db.reference('/history').delete()
+                st.success("Firebase dikosongkan!")
+                # Refresh dashboard supaya graf bermula baru
+                st.rerun()
+            except Exception as e:
+                st.error(f"Gagal padam: {e}")
+    # --------------------------------------------
     
     st.subheader("Graph Kualiti Udara (5 Minutes Interval)")
     st.line_chart(df.set_index('timestamp')[['pm2_5', 'temperature']])
