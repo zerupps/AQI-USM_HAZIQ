@@ -81,6 +81,20 @@ live_ref = db.reference('/live').get()
 if live_ref:
     last_ts = live_ref.get('timestamp', 'Tiada Data')
     st.caption(f"🕒 Kemaskini Terakhir: {last_ts}")
+
+    current_pm25 = live_ref.get('pm2_5', 0)
+    live_ipu = calculate_ipu_pm25(current_pm25)
+    status_text, status_color, status_emoji = get_ipu_status(live_ipu)
+
+    st.markdown(
+        f"""
+        <div style="background-color: {status_color}; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+            <h3 style="margin: 0; color: black;">{status_emoji} Status Kualiti Udara: {status_text} (IPU: {round(live_ipu)})</h3>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
     col1, col2, col3 = st.columns(3)
     col1.metric("Temperature", f"{live_ref['temperature']} °C")
     col2.metric("Humidity", f"{live_ref['humidity']} %")
