@@ -21,6 +21,41 @@ def load_ml_assets():
 model_rf, scaler_rf = load_ml_assets()
 
 count = st_autorefresh(interval=60000, limit=1000, key="fscounter")
+
+# --- API ---
+def calculate_ipu_pm25(pm25):
+    """Kira nilai Indeks Pencemar Udara (IPU) berdasarkan nilai PM2.5"""
+    try:
+        pm25 = float(pm25)
+    except (ValueError, TypeError):
+        return 0 # Default jika data rosak
+
+    if pm25 <= 12:
+        return (50 / 12) * pm25
+    elif pm25 <= 35:
+        return ((100 - 51) / (35 - 12.1)) * (pm25 - 12.1) + 51
+    elif pm25 <= 55:
+        return ((200 - 101) / (55 - 35.1)) * (pm25 - 35.1) + 101
+    elif pm25 <= 150:
+        return ((300 - 201) / (150 - 55.1)) * (pm25 - 55.1) + 201
+    elif pm25 <= 250:
+        return ((500 - 301) / (250 - 150.1)) * (pm25 - 150.1) + 301
+    else:
+        return 500
+
+def get_ipu_status(ipu_value):
+    """Kembalikan status, warna hex, dan emoji berdasarkan tahap IPU"""
+    if ipu_value <= 50:
+        return "Baik", "#00b050", "🟢" # Hijau
+    elif ipu_value <= 100:
+        return "Sederhana", "#92d050", "🟡" # Kuning Kehijauan
+    elif ipu_value <= 200:
+        return "Tidak Sihat", "#ffff00", "🟠" # Kuning
+    elif ipu_value <= 300:
+        return "Sangat Tidak Sihat", "#ff9900", "🔴" # Jingga
+    else:
+        return "Berbahaya", "#ff0000", "☠️" # Merah
+# ---------------------------------
 # 1. Ambil data dari Streamlit Secrets (Format TOML tadi)
 # Pastikan header kat Secrets tu adalah [firebase]
 if "firebase" in st.secrets:
