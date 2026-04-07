@@ -23,7 +23,7 @@ model_rf, scaler_rf = load_ml_assets()
 count = st_autorefresh(interval=60000, limit=1000, key="fscounter")
 
 # --- API ---
-def calculate_ipu_pm25(pm25):
+def calculate_ipu_pm25(pm25_raw):
     """Kira nilai Indeks Pencemar Udara (IPU) berdasarkan nilai PM2.5"""
     try:
         # Bundarkan ke 1 titik perpuluhan ikut standard rasmi
