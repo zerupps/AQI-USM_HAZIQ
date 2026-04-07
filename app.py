@@ -89,7 +89,7 @@ if live_ref:
     st.markdown(
         f"""
         <div style="background-color: {status_color}; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
-            <h3 style="margin: 0; color: black;">{status_emoji} Status Kualiti Udara: {status_text} (IPU: {round(live_ipu)})</h3>
+            <h3 style="margin: 0; color: black;">{status_emoji} Status Air Quality: {status_text} (IPU: {round(live_ipu)})</h3>
         </div>
         """,
         unsafe_allow_html=True
