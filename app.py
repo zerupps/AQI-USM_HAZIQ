@@ -192,9 +192,39 @@ if history_ref:
             dummy[0, 4] = raw_pred
             inversed_data = scaler_rf.inverse_transform(dummy)
             final_pm25 = inversed_data[0, 4]
+
+        # ... kod atas ...
+            raw_pred = prediction[0]
+            dummy = np.zeros((1, 6))
+            dummy[0, 4] = raw_pred
+            inversed_data = scaler_rf.inverse_transform(dummy)
+            final_pm25 = inversed_data[0, 4]
             
+            # --- MULA LETAK KOD BARU KAT SINI ---
+            pred_ipu = calculate_ipu_pm25(final_pm25)
+            pred_status, pred_color, pred_emoji = get_ipu_status(pred_ipu)
             
-            st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{final_pm25:.2f} µg/m³")
+            col_pred1, col_pred2 = st.columns(2)
+            
+            with col_pred1:
+                st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{final_pm25:.2f} µg/m³")
+                
+            with col_pred2:
+                st.markdown(
+                    f"""
+                    <div style="background-color: {pred_color}; padding: 15px; border-radius: 10px; text-align: center;">
+                        <h4 style="margin: 0; color: black;">{pred_emoji} Prediction Status</h4>
+                        <p style="margin: 0; color: black; font-weight: bold; font-size: 1.1em;">{pred_status} (IPU: {round(pred_ipu)})</p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+            # --- TAMAT KOD BARU ---
+            
+        except KeyError as e:
+            st.error(f"Kolum {e} masih tak jumpa! Sila semak ejaan payload.")
+            
+            #st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{final_pm25:.2f} µg/m³")
             
         except KeyError as e:
             st.error(f"Kolum {e} masih tak jumpa! Sila semak ejaan payload.")
