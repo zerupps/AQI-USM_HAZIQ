@@ -26,21 +26,34 @@ count = st_autorefresh(interval=60000, limit=1000, key="fscounter")
 def calculate_ipu_pm25(pm25):
     """Kira nilai Indeks Pencemar Udara (IPU) berdasarkan nilai PM2.5"""
     try:
-        pm25 = float(pm25)
+        # Bundarkan ke 1 titik perpuluhan ikut standard rasmi
+        pm25 = round(float(pm25_raw), 1)
     except (ValueError, TypeError):
-        return 0 # Default jika data rosak
+        return 0 
 
-    if pm25 <= 12:
-        return (50 / 12) * pm25
-    elif pm25 <= 35:
-        return ((100 - 51) / (35 - 12.1)) * (pm25 - 12.1) + 51
-    elif pm25 <= 55:
-        return ((200 - 101) / (55 - 35.1)) * (pm25 - 35.1) + 101
-    elif pm25 <= 150:
-        return ((300 - 201) / (150 - 55.1)) * (pm25 - 55.1) + 201
-    elif pm25 <= 250:
-        return ((500 - 301) / (250 - 150.1)) * (pm25 - 150.1) + 301
+    # Pengiraan mengikut jadual breakpoint Malaysia yang tepat
+    if pm25 <= 12.0:
+        # Kategori: Baik (0-50)
+        return (50 / 12.0) * pm25
+    
+    elif pm25 <= 35.0:
+        # Kategori: Sederhana (51-100)
+        return ((100 - 51) / (35.0 - 12.1)) * (pm25 - 12.1) + 51
+    
+    elif pm25 <= 55.0:
+        # Kategori: Tidak Sihat (101-200)
+        return ((200 - 101) / (55.0 - 35.1)) * (pm25 - 35.1) + 101
+    
+    elif pm25 <= 150.0:
+        # Kategori: Sangat Tidak Sihat (201-300)
+        return ((300 - 201) / (150.0 - 55.1)) * (pm25 - 55.1) + 201
+    
+    elif pm25 <= 250.0:
+        # Kategori: Berbahaya (301-500)
+        return ((500 - 301) / (250.0 - 150.1)) * (pm25 - 150.1) + 301
+    
     else:
+        # Kecemasan
         return 500
 
 def get_ipu_status(ipu_value):
