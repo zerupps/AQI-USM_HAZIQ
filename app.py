@@ -59,15 +59,15 @@ def calculate_ipu_pm25(pm25_raw):
 def get_ipu_status(ipu_value):
     """Kembalikan status, warna hex, dan emoji berdasarkan tahap IPU"""
     if ipu_value <= 50:
-        return "Baik", "#00b050", "🟢" # Hijau
+        return "Good", "#00b050", "🟢" # Hijau
     elif ipu_value <= 100:
-        return "Sederhana", "#92d050", "🟡" # Kuning Kehijauan
+        return "Moderate", "#92d050", "🟡" # Kuning Kehijauan
     elif ipu_value <= 200:
-        return "Tidak Sihat", "#ffff00", "🟠" # Kuning
+        return "Unhealthy", "#ffff00", "🟠" # Kuning
     elif ipu_value <= 300:
-        return "Sangat Tidak Sihat", "#ff9900", "🔴" # Jingga
+        return "Very Unhealthy", "#ff9900", "🔴" # Jingga
     else:
-        return "Berbahaya", "#ff0000", "☠️" # Merah
+        return "Hazardous", "#ff0000", "☠️" # Merah
 # ---------------------------------
 # 1. Ambil data dari Streamlit Secrets (Format TOML tadi)
 # Pastikan header kat Secrets tu adalah [firebase]
