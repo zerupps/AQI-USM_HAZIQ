@@ -207,7 +207,7 @@ if history_ref:
             col_pred1, col_pred2 = st.columns(2)
             
             with col_pred1:
-                st.metric("Ramalan PM 2.5 (15 Min Depan)", f"{final_pm25:.2f} µg/m³")
+                st.metric("PM 2.5 Prediction (In 15 minutes)", f"{final_pm25:.2f} µg/m³")
                 
             with col_pred2:
                 st.markdown(
