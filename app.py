@@ -93,7 +93,7 @@ live_ref = db.reference('/live').get()
 
 if live_ref:
     last_ts = live_ref.get('timestamp', 'Tiada Data')
-    st.caption(f"🕒 Kemaskini Terakhir: {last_ts}")
+    st.caption(f"🕒 Latest Update: {last_ts}")
 
     current_pm25 = live_ref.get('pm2_5', 0)
     live_ipu = calculate_ipu_pm25(current_pm25)
@@ -147,7 +147,7 @@ if history_ref:
                 st.error(f"Gagal padam: {e}")
     # --------------------------------------------
     
-    st.subheader("Graph Kualiti Udara (5 Minutes Interval)")
+    st.subheader("Graph Air Quality (5 Minutes Interval)")
     st.line_chart(df.set_index('timestamp')[['pm2_5', 'temperature']])
 
 
