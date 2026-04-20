@@ -114,7 +114,7 @@ if live_ref:
     col3.metric("PM 2.5", f"{live_ref['pm2_5']} µg/m³")
     
 # 3. Tarik Data Sejarah (Untuk Graf)
-history_ref = db.reference('/history').get()
+history_ref = db.reference('/history').order_by_key().limit_to_last(500).get()
 if history_ref:
     # Tukar format Firebase (JSON) ke Pandas DataFrame
     data_list = [val for val in history_ref.values()]
