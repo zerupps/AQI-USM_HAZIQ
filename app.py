@@ -158,13 +158,13 @@ st.subheader("🤖 AI Prediction (Next 15 Minutes)")
 mapping_payload = {
     'temperature': 'temp',
     'humidity': 'hum',
-    'gas_voltage': 'gas_v',
+    'gas_voltage': 'gas_ppm',
     'pm1_0': 'pm1',
     'pm2_5': 'pm25',
     'pm10_0': 'pm10'
 }
 
-fitur_ml = ['temp', 'hum', 'gas_v', 'pm1', 'pm25', 'pm10']
+fitur_ml = ['temp', 'hum', 'gas_ppm', 'pm1', 'pm25', 'pm10']
 
 if history_ref:
     data_list = [val for val in history_ref.values()]
