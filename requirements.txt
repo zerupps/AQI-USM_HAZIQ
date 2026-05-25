@@ -4,3 +4,5 @@ pandas
 streamlit-autorefresh
 joblib
 scikit-learn
+numpy
+tensorflow-cpu==2.15.0
