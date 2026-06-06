@@ -15,11 +15,11 @@ def load_ml_assets():
     try:
         # Load Model Sniper (5 Minit) & Model Teropong (1 Jam)
         # Sila tukar nama fail .h5 ni mengikut nama yang kau save dalam Jupyter
-        model_5min = load_model('top_model_version_H1.keras')
+        model_5min = load_model('top_model_version_5M.keras')
         model_1jam = load_model('top_model_version_1Hour.keras')
         
         # Load scaler yang terbaru
-        with open('scaler_multivariate_LSTM_29052026_1Hour.pkl', 'rb') as f:
+        with open('scaler_multivariate_LSTM_06052026_1Hour.pkl', 'rb') as f:
             scaler = pickle.load(f)
             
         return model_5min, model_1jam, scaler
