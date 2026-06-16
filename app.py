@@ -193,7 +193,7 @@ if history_ref:
             else:
                 prediction = model_1jam.predict(final_input, verbose=0)
                 raw_pred = prediction.flatten()[-1] # Ambil ramalan terakhir (minit ke-60)
-                label_masa = "Dalam 1 Jam"
+                label_masa = "In 1 Hour"
 
             # Inverse Transform
             dummy = np.zeros((1, 6))
