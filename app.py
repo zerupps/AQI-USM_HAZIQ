@@ -156,7 +156,7 @@ st.subheader("🤖 AI Prediction (LSTM Engine)")
 # MENU PILIHAN PENGGUNA
 pilihan_masa = st.radio(
     "Pilih Tempoh Ramalan Ke Hadapan:",
-    ("5 Minit Kedepan", "1 Jam Kedepan"),
+    ("Next 5 Minutes", "Next 1 hour"),
     horizontal=True
 )
 
@@ -186,7 +186,7 @@ if history_ref:
             final_input = scaled.reshape(1, 12, 6)
             
             # Eksekusi AI berdasarkan pilihan
-            if pilihan_masa == "5 Minit Kedepan":
+            if pilihan_masa == "Next 5 Minutes":
                 prediction = model_5min.predict(final_input, verbose=0)
                 raw_pred = prediction.flatten()[0]  # Ambil jawapan tunggal
                 label_masa = "Dalam 5 Minit"
