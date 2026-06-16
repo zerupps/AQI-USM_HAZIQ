@@ -189,7 +189,7 @@ if history_ref:
             if pilihan_masa == "Next 5 Minutes":
                 prediction = model_5min.predict(final_input, verbose=0)
                 raw_pred = prediction.flatten()[0]  # Ambil jawapan tunggal
-                label_masa = "Dalam 5 Minit"
+                label_masa = "In 5 minutes"
             else:
                 prediction = model_1jam.predict(final_input, verbose=0)
                 raw_pred = prediction.flatten()[-1] # Ambil ramalan terakhir (minit ke-60)
