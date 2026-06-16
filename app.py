@@ -36,18 +36,29 @@ count = st_autorefresh(interval=60000, limit=1000, key="fscounter")
 # 2. FUNGSI IPU & STATUS
 # ---------------------------------
 def calculate_ipu_pm25(pm25_raw):
-    """Kira nilai Indeks Pencemar Udara (IPU) berdasarkan nilai PM2.5"""
+    """Kira nilai Indeks Pencemar Udara (IPU) berdasarkan nilai PM2.5 mengikut standard USEPA/JAS Malaysia"""
     try:
         pm25 = round(float(pm25_raw), 1)
     except (ValueError, TypeError):
         return 0 
 
-    if pm25 <= 12.0: return (50 / 12.0) * pm25
-    elif pm25 <= 35.0: return ((100 - 51) / (35.0 - 12.1)) * (pm25 - 12.1) + 51
-    elif pm25 <= 55.0: return ((200 - 101) / (55.0 - 35.1)) * (pm25 - 35.1) + 101
-    elif pm25 <= 150.0: return ((300 - 201) / (150.0 - 55.1)) * (pm25 - 55.1) + 201
-    elif pm25 <= 250.0: return ((500 - 301) / (250.0 - 150.1)) * (pm25 - 150.1) + 301
-    else: return 500
+    # Breakpoints rasmi
+    if pm25 <= 12.0: 
+        return (50 / 12.0) * pm25
+    elif pm25 <= 35.4: 
+        return ((100 - 51) / (35.4 - 12.1)) * (pm25 - 12.1) + 51
+    elif pm25 <= 55.4: 
+        return ((150 - 101) / (55.4 - 35.5)) * (pm25 - 35.5) + 101
+    elif pm25 <= 150.4: 
+        return ((200 - 151) / (150.4 - 55.5)) * (pm25 - 55.5) + 151
+    elif pm25 <= 250.4: 
+        return ((300 - 201) / (250.4 - 150.5)) * (pm25 - 150.5) + 201
+    elif pm25 <= 350.4: 
+        return ((400 - 301) / (350.4 - 250.5)) * (pm25 - 250.5) + 301
+    elif pm25 <= 500.4: 
+        return ((500 - 401) / (500.4 - 350.5)) * (pm25 - 350.5) + 401
+    else: 
+        return 500
 
 def get_ipu_status(ipu_value):
     """Kembalikan status, warna hex, dan emoji berdasarkan tahap IPU"""
