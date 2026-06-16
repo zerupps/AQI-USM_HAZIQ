@@ -155,7 +155,7 @@ st.subheader("🤖 AI Prediction (LSTM Engine)")
 
 # MENU PILIHAN PENGGUNA
 pilihan_masa = st.radio(
-    "Pilih Tempoh Ramalan Ke Hadapan:",
+    "Select Forecast Horizon:",
     ("Next 5 Minutes", "Next 1 hour"),
     horizontal=True
 )
