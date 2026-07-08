@@ -19,7 +19,7 @@ def load_ml_assets():
         model_1jam = load_model('top_model_version_1Hour.keras')
         
         # Load scaler yang terbaru
-        with open('scaler_multivariate_LSTM_05062026_1Hour.pkl', 'rb') as f:
+        with open('scaler_multivariate_LSTM_10062026_1hour.pkl', 'rb') as f:
             scaler = pickle.load(f)
             
         return model_5min, model_1jam, scaler
