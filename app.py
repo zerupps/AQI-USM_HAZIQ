@@ -16,7 +16,7 @@ def load_ml_assets():
         # Load Model Sniper (5 Minit) & Model Teropong (1 Jam)
         # Sila tukar nama fail .h5 ni mengikut nama yang kau save dalam Jupyter
         model_5min = load_model('top_model_version_5M.keras')
-        model_1jam = load_model('top_model_version_1Hour.keras')
+        model_1jam = load_model('top_model_version_1hour.keras')
         
         # Load scaler yang terbaru
         with open('scaler_multivariate_LSTM_10062026_1hour.pkl', 'rb') as f:
